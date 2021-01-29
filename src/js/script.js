@@ -53,18 +53,27 @@
   };
 
   class Product {
+
     constructor(id, data) {
       const thisProduct = this;
       thisProduct.id = id;
       thisProduct.data = data;
+      thisProduct.renderInMenu(); //Zadba ona o to, żeby nasz konstruktor uruchomił tę funkcję od razu po utworzeniu instancji.
       console.log('new Product:', thisProduct);
     }
+    renderInMenu() {
+      const thisProduct = this;
+      //generate HTML based on tamplate
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+      console.log(generatedHTML);
+      //create element using utils.createElementFromHTML
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      //find menue container
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      //add element to menu
+      menuContainer.appendChild(thisProduct.element);
+    }
   }
-
-
-
-
-
 
   const app = {
     initData: function () {
