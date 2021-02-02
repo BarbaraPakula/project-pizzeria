@@ -40,6 +40,7 @@
     },
   };
 
+  // eslint-disable-next-line no-unused-vars
   const settings = {
     amountWidget: {
       defaultValue: 1,
@@ -87,7 +88,8 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
-      // console.log(thisProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      // console.log(thisProduct.imageWrapper);
     }
     initAccordion() {
       const thisProduct = this;
@@ -98,7 +100,7 @@
         /* prevent default action for event */
         event.preventDefault();
         /* find active product (product that has active class) */
-        const activeProduct = document.querySelector('.active');
+        const activeProduct = document.querySelector('.product.active');
         console.log('activeProduct: ', activeProduct);
         /* if there is active product and it's not thisProduct.element, remove class active from it */
         if (activeProduct !== null && activeProduct !== thisProduct.element) {
@@ -130,12 +132,12 @@
     }
     processOrder() {
       const thisProduct = this;
-      console.log(this);
+      // console.log(this);
       // covert form to object structure e.g. {sauce:['tomato'], toppings: ['olives', 'redPeppers']}}
       const formData = utils.serializeFormToObject(thisProduct.form);
       // set price to default price
       let price = thisProduct.data.price;
-      console.log(price);
+      // console.log(price);
       // for every category (param)...
       for (let paramId in thisProduct.data.params) {
         const param = thisProduct.data.params[paramId];
@@ -144,7 +146,8 @@
         for (let optionId in param.options) {
           const option = param.options[optionId];  // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           // console.log(optionId, option);
-          if (formData[paramId] && formData[paramId].includes(optionId)) {
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+          if (optionSelected) {
             // check if the option is not default
             if (!option.hasOwnProperty('default')) {
               price += option.price;
@@ -153,13 +156,23 @@
           else {
             // check if the option is default
             if (option.hasOwnProperty('default')) {
-
               price -= option.price;
+            }
+          }
+          const optionImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
+          console.log(optionImage);
+          if (optionImage) {
+            if (optionSelected) {
+              optionImage.classList.add(classNames.menuProduct.imageVisible);
+            }
+            else if (!optionSelected) {
+              optionImage.classList.remove(classNames.menuProduct.imageVisible);
             }
           }
         }
       }
-      console.log(price);
+      // Teraz będziemy wyszukiwać obrazek pasujący do danej pary kategoria-opcja i zależnie od tego, czy opcja jest wybrana, pokazywać go lub chować.
+      // console.log(price);
       thisProduct.priceElem.innerHTML = price;
     }
   }
