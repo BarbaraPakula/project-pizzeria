@@ -1,5 +1,4 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
-
 {
   'use strict';
 
@@ -40,12 +39,11 @@
     },
   };
 
-  // eslint-disable-next-line no-unused-vars
   const settings = {
     amountWidget: {
       defaultValue: 1,
-      defaultMin: 1,
-      defaultMax: 9,
+      defaultMin: 0,
+      defaultMax: 10,
     }
   };
 
@@ -63,9 +61,9 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
-
-      //Zadba ona o to, żeby nasz konstruktor uruchomił tę funkcję od razu po utworzeniu instancji.
+      //Zadba ona o to, żebykonstruktor uruchomił tę funkcję od razu po utworzeniu instancji.
       // console.log('new Product:', thisProduct);
     }
     renderInMenu() {
@@ -89,6 +87,7 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
       // console.log(thisProduct.imageWrapper);
     }
     initAccordion() {
@@ -132,20 +131,16 @@
     }
     processOrder() {
       const thisProduct = this;
-      // console.log(this);
       // covert form to object structure e.g. {sauce:['tomato'], toppings: ['olives', 'redPeppers']}}
       const formData = utils.serializeFormToObject(thisProduct.form);
       // set price to default price
       let price = thisProduct.data.price;
-      // console.log(price);
       // for every category (param)...
       for (let paramId in thisProduct.data.params) {
         const param = thisProduct.data.params[paramId];
-        // console.log(paramId, param);
         // for every option in this category
         for (let optionId in param.options) {
           const option = param.options[optionId];  // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
-          // console.log(optionId, option);
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
           if (optionSelected) {
             // check if the option is not default
@@ -160,7 +155,7 @@
             }
           }
           const optionImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
-          console.log(optionImage);
+          // console.log(optionImage);
           if (optionImage) {
             if (optionSelected) {
               optionImage.classList.add(classNames.menuProduct.imageVisible);
@@ -171,23 +166,76 @@
           }
         }
       }
-      // Teraz będziemy wyszukiwać obrazek pasujący do danej pary kategoria-opcja i zależnie od tego, czy opcja jest wybrana, pokazywać go lub chować.
-      // console.log(price);
+      price *= thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = price;
     }
+    initAmountWidget() {
+      const thisProduct = this;
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated', function () {
+        thisProduct.processOrder();
+      });
+    }
   }
+  class AmountWidget {
+    constructor(element) {
+      const thisWidget = this;
+      thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
+
+      console.log('AmountWidget:', thisWidget);
+      console.log('constructor arguments:', element);
+    }
+    getElements(element) {
+      const thisWidget = this;
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+    setValue(value) {
+      const thisWidget = this;
+      const newValue = parseInt(value);
+      thisWidget.value = settings.amountWidget.defaultValue;
+
+      // TODO: Add validation
+      console.log(thisWidget);
+      if (thisWidget.value !== newValue && !isNaN(newValue) && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
+        thisWidget.value = newValue;
+        thisWidget.announce();
+      }
+      thisWidget.input.value = thisWidget.value; //TODO tu coś nie gra !
+    }
+
+    initActions() {
+      const thisWidget = this;
+      thisWidget.input.addEventListener('change', function () {
+        thisWidget.setValue(thisWidget.input.value);
+      });
+      thisWidget.linkDecrease.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value - 1);
+      });
+      thisWidget.linkIncrease.addEventListener('click', function () {
+        thisWidget.setValue(thisWidget.value + 1);
+      });
+    }
+    announce() {
+      const thisWidget = this;
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
+    }
+  }
+
   const app = {
     initData: function () {
       const thisApp = this;
-
       thisApp.data = dataSource;
     },
 
     initMenu: function () {
       const thisApp = this;
-
-      //console.log('thisApp.data:', thisApp.data);
-
       for (let productData in thisApp.data.products) {
         new Product(productData, thisApp.data.products[productData]);
       }
@@ -195,12 +243,6 @@
 
     init: function () {
       const thisApp = this;
-      /*console.log('*** App starting ***');
-      console.log('thisApp:', thisApp);
-      console.log('classNames:', classNames);
-      console.log('settings:', settings);
-      console.log('templates:', templates);*/
-
       thisApp.initData();
       thisApp.initMenu();
     },
