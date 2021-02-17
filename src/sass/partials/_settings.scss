@@ -3,6 +3,9 @@
 $color-dark: #333;
 $color-light: #fff;
 $color-main: #ff6b6b;
+$color-warning: #f6b93b;
+$color-danger: #e55039;
+$color-success: #78e08f;
 
 $font-header: 'Oswald',sans-serif;
 $font-text: 'Lato',sans-serif;
@@ -60,10 +63,6 @@ $base-size: 12px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
 }
 
 @mixin accordion-closed() {
@@ -72,24 +71,12 @@ $base-size: 12px;
   transition: all 0.25s ease-in-out;
   max-height: 0;
   transform: translate(0, 50%);
-  -webkit-transition: all 0.25s ease-in-out;
-  -moz-transition: all 0.25s ease-in-out;
-  -ms-transition: all 0.25s ease-in-out;
-  -o-transition: all 0.25s ease-in-out;
-  -webkit-transform: translate(0, 50%);
-  -moz-transform: translate(0, 50%);
-  -ms-transform: translate(0, 50%);
-  -o-transform: translate(0, 50%);
 }
 
 @mixin accordion-open() {
   transform: translate(0, 0);
   max-height: 1000px;
   opacity: 1;
-  -webkit-transform: translate(0, 0);
-  -moz-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  -o-transform: translate(0, 0);
 }
 
 /* Helpers */
@@ -104,10 +91,6 @@ $base-size: 12px;
     opacity: 0;
     transform-origin: top center;
     transform: rotateX(-90deg);
-    -webkit-transform: rotateX(-90deg);
-    -moz-transform: rotateX(-90deg);
-    -ms-transform: rotateX(-90deg);
-    -o-transform: rotateX(-90deg);
   }
 
   5% {
