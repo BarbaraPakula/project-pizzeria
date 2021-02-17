@@ -1,8 +1,10 @@
 import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
 
 const app = {
+
   initPages: function () {
     const thisApp = this;
 
@@ -10,7 +12,6 @@ const app = {
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
 
     const idFromHash = window.location.hash.replace('#/', '');
-    // console.log('idFromHash', idFromHash);
     let pageMatchingHash = thisApp.pages[0].id;
 
     for (let page of thisApp.pages) {
@@ -19,7 +20,6 @@ const app = {
         break;
       }
     }
-    // thisApp.activatePage(thisApp.pages[0].id);
     thisApp.activatePage(pageMatchingHash);
     for (let link of thisApp.navLinks) {
       link.addEventListener('click', function (event) {
@@ -34,7 +34,6 @@ const app = {
       });
     }
   },
-
   activatePage: function (pageId) {
     const thisApp = this;
     //add class "active" to matching pages remove from non-matching
@@ -48,23 +47,12 @@ const app = {
       );
     }
   },
-
   initMenu: function () {
     const thisApp = this;
     for (let productData in thisApp.data.products) {
       // new Product(productData, thisApp.data.products[productData]);
       new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
     }
-  },
-  initCart: function () {
-    const thisApp = this;
-    const cartElem = document.querySelector(select.containerOf.cart);
-    thisApp.cart = new Cart(cartElem);
-
-    thisApp.productList = document.querySelector(select.containerOf.menu);
-    thisApp.productList.addEventListener('add-to-cart', function (event) {
-      app.cart.add(event.detail.product);
-    });
   },
   initData: function () {
     const thisApp = this;
@@ -84,12 +72,28 @@ const app = {
       });
     console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
+  initCart: function () {
+    const thisApp = this;
+    const cartElem = document.querySelector(select.containerOf.cart);
+    thisApp.cart = new Cart(cartElem);
+
+    thisApp.productList = document.querySelector(select.containerOf.menu);
+    thisApp.productList.addEventListener('add-to-cart', function (event) {
+      app.cart.add(event.detail.product);
+    });
+  },
+  initBooking: function () {
+    const thisApp = this;
+    const widgetContainer = document.querySelector(select.containerOf.booking);
+    thisApp.booking = new Booking(widgetContainer);
+  },
+
   init: function () {
     const thisApp = this;
     thisApp.initPages();
     thisApp.initData();
-    // thisApp.initMenu();skasuj
     thisApp.initCart();
+    thisApp.initBooking();
   },
 };
 app.init();

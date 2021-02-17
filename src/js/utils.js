@@ -1,5 +1,4 @@
 /* global Handlebars, dataSource */
-
 export const utils = {};
 
 utils.createDOMFromHTML = function (htmlString) {
