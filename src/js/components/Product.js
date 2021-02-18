@@ -129,15 +129,10 @@ class Product {
   }
   addToCart() {
     const thisProduct = this;
-    thisProduct.name = thisProduct.data.name;
-    thisProduct.amount = thisProduct.amountWidget.value;
-    thisProduct.price = this.priceMultiply;
-    // app.cart.add(thisProduct.prepareCartProduct());
-
     const event = new CustomEvent('add-to-cart', {
       bubbles: true,
       detail: {
-        product: thisProduct,
+        product: thisProduct.prepareCartProduct(),
       },
     });
 
@@ -165,7 +160,7 @@ class Product {
       const param = thisProduct.data.params[paramId];
       // create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}
       params[paramId] = {
-        name: param.label,
+        label: param.label,
         options: {}
       };
       // for every option in this category
