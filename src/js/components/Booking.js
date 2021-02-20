@@ -1,5 +1,7 @@
-import { select, templates } from '../settings.js';
+import { templates, select } from '../settings.js';
 import AmountWidget from './AmountWidget.js';
+import DatePicker from './DatePicker.js';
+import HourPicker from './HourPicker.js';
 
 class Booking {
   constructor(element) {
@@ -7,32 +9,47 @@ class Booking {
 
     thisBooking.render(element);
     thisBooking.initWidgets();
-    // console.log('new Booking', thisBooking);
   }
 
   render(element) {
     const thisBooking = this;
-    const generatedHTML = templates.bookingWidget();
-    // generowanie kodu HTML za pomocą szablonu templates.
+
+    const generatedHTML = templates.bookingWidget(element);
+
     thisBooking.dom = {};
     thisBooking.dom.wrapper = element;
-    // dodanie do tego obiektu właściwości wrapper i przypisanie do niej referencji do kontenera (jest dostępna w argumencie metody),
-    // zmiana zawartości wrappera (innerHTML) na kod HTML wygenerowany z szablonu.
-    thisBooking.dom.wrapper.innerHTML = generatedHTML;
-    thisBooking.dom.peopleAmount = document.querySelector(select.booking.peopleAmount);
-    thisBooking.dom.hoursAmount = document.querySelector(select.booking.hoursAmount);
+    //console.log(element)
+    element.innerHTML = generatedHTML;
+
+    thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
+    thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
+
+    thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
+    //console.log(thisBooking.dom.peopleAmount)
+    thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
+    //console.log(thisBooking.dom.hoursAmount)
+
+
   }
+
   initWidgets() {
     const thisBooking = this;
-    //  utworzenie nowych instancji
+
     thisBooking.peopleAmountWidget = new AmountWidget(thisBooking.dom.peopleAmount);
-    thisBooking.dom.peopleAmount.addEventListener('click', function () {
-
-    });
     thisBooking.hoursAmountWidget = new AmountWidget(thisBooking.dom.hoursAmount);
-    thisBooking.dom.hoursAmount.addEventListener('click', function () {
 
+    thisBooking.hourPickerAmountWidget = new HourPicker(thisBooking.dom.hourPicker);
+    //console.log(thisBooking.hourPickerAmountWidget)
+    thisBooking.datePickerAmountWidget = new DatePicker(thisBooking.dom.datePicker);
+    //console.log(thisBooking.datePickerAmountWidget)
+
+    thisBooking.dom.peopleAmount.addEventListener('updated', function () {
     });
+
+    thisBooking.dom.hoursAmount.addEventListener('updated', function () {
+    });
+
   }
 }
+
 export default Booking;
