@@ -54,7 +54,6 @@ class Cart {
   sendOrder() {
     const thisCart = this;
     const url = settings.db.url + '/' + settings.db.order;
-    console.log('url', url);
     const payload = {
       address: thisCart.dom.address['value'],
       phone: thisCart.dom.phone['value'],
