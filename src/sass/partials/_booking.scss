@@ -129,7 +129,11 @@
     background: #ede3c8;
     border: 1px solid $color-dark;
     border-width: 0 6px 0 6px;
-  }
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
 
   .bar {
     left: 0;
@@ -139,16 +143,22 @@
     line-height: 50px;
   }
 
+
+
   .table {
-    @extend .h2;
+        @extend .h2:;
     width: 70px;
     height: 70px;
     line-height: 70px;
     transform: rotate(45deg);
     transform-origin: 50% 50%;
     cursor: pointer;
-
-    &--round {
+        &--round :;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+{
       border-radius: 50%;
 
       &::after {
