@@ -140,13 +140,14 @@ class Booking {
         thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
       ) {
         table.classList.add(classNames.booking.tableBooked);
-        table.classList.remove(classNames.booking.tableSelected); // TODO remove for change
       }
       else {
         table.classList.remove(classNames.booking.tableBooked);
       }
     }
-
+    for (let clickedElement of thisBooking.dom.tables) {
+      clickedElement.classList.remove(classNames.booking.tableSelected);
+    }
   }
 
   render(element) {
@@ -181,10 +182,23 @@ class Booking {
 
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
+    thisBooking.dom.datePicker.addEventListener('updated', function () {
+      // thisBooking.reservationTable = null;
+      // thisBooking.updateDOM();
+    });
+
+    thisBooking.dom.hourPicker.addEventListener('updated', function () {
+      // thisBooking.reservationTable = null;
+      // thisBooking.updateDOM();
+    });
+
+
+
 
     thisBooking.dom.wrapper.addEventListener('updated', function () {
-      thisBooking.updateDOM();
+
       thisBooking.reservationTable = null;
+      thisBooking.updateDOM();
     });
 
     thisBooking.dom.allTables.addEventListener('click', function (event) {
@@ -253,9 +267,11 @@ class Booking {
     };
 
     fetch(url, options)
-      .then(thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table))
-      .then(console.log(thisBooking.booked))
-      .then(location.reload());
+      .then(function (response) {
+        return response.json();
+      })
+      .then(console.log(thisBooking.booked));
+
   }
 }
 
