@@ -255,9 +255,9 @@ class Booking {
       if (starter.checked == true) {
         payload.starters.push(starter.value);
       }
-      console.log('payload', payload);
     }
 
+    console.log('payload', payload);
     const options = {
       method: 'POST',
       headers: {
@@ -266,11 +266,17 @@ class Booking {
       body: JSON.stringify(payload),
     };
 
+
     fetch(url, options)
+      .then(thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table))
       .then(function (response) {
         return response.json();
       })
-      .then(console.log(thisBooking.booked));
+      .then(function (parsedResponse) {
+        console.log('parsedResponse', parsedResponse);
+        thisBooking.getData();
+      });
+
 
   }
 }
