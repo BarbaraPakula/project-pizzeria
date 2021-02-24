@@ -182,28 +182,14 @@ class Booking {
 
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
-    thisBooking.dom.datePicker.addEventListener('updated', function () {
-      // thisBooking.reservationTable = null;
-      // thisBooking.updateDOM();
-    });
-
-    thisBooking.dom.hourPicker.addEventListener('updated', function () {
-      // thisBooking.reservationTable = null;
-      // thisBooking.updateDOM();
-    });
-
-
-
 
     thisBooking.dom.wrapper.addEventListener('updated', function () {
-
-      thisBooking.reservationTable = null;
       thisBooking.updateDOM();
     });
 
     thisBooking.dom.allTables.addEventListener('click', function (event) {
       event.preventDefault();
-      thisBooking.changeEvent = event;
+      // thisBooking.changeEvent = event;
       thisBooking.initTables(event);
     });
 
@@ -274,7 +260,6 @@ class Booking {
       })
       .then(function (parsedResponse) {
         console.log('parsedResponse', parsedResponse);
-        thisBooking.getData();
       });
 
 
