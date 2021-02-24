@@ -1,5 +1,4 @@
 import { select, templates, classNames } from '../settings.js';
-
 class Home {
   constructor(element) {
     const thisHome = this;

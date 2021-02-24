@@ -252,7 +252,6 @@ class Booking {
       body: JSON.stringify(payload),
     };
 
-
     fetch(url, options)
       .then(thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table))
       .then(function (response) {
@@ -261,7 +260,6 @@ class Booking {
       .then(function (parsedResponse) {
         console.log('parsedResponse', parsedResponse);
       });
-
 
   }
 }

@@ -30,7 +30,7 @@ const app = {
         const id = clickedElement.getAttribute('href').replace('#', '');
         // run thisApp.activatePage with that id
         thisApp.activatePage(id);
-        // TODO change URL hash
+        // change URL hash
         window.location.hash = '#/' + id;
       });
     }
@@ -65,7 +65,6 @@ const app = {
       })
       .then(function (parsedResponse) {
         // console.log('parsedResponse', parsedResponse);
-
         /* save parsedResponse as thissApp.data.products */
         thisApp.data.products = parsedResponse;
         /* execute initMenu method */

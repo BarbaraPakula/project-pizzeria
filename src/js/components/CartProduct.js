@@ -26,7 +26,6 @@ class CartProduct {
     thisCartProduct.dom.edit = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.edit);
     thisCartProduct.dom.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remove);
   }
-  //start
   initAmountWidget() {
     const thisCartProduct = this;
     thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
@@ -37,7 +36,7 @@ class CartProduct {
       thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amount;
       thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
 
-    }); //end
+    });
   }
   remove() {
     const thisCartProduct = this;
