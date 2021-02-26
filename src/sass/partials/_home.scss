@@ -20,11 +20,14 @@ h2 {
   cursor: pointer;
   border-radius: 4%;
   color: $color-light;
-  line-height: 6;
-  -webkit-border-radius: 4%;
-  -moz-border-radius: 4%;
-  -ms-border-radius: 4%;
-  -o-border-radius: 4%;
+  padding-top: 50px;
+  margin-bottom: 20px;
+  -webkit-border-radius: 3%;
+}
+
+.box a {
+  text-decoration: none;
+  color: #fff;
 }
 
 .text {
@@ -36,14 +39,14 @@ h2 {
   background-size: cover;
 }
 
-.order-online:hover>h2 {
+.order-online:hover a>h2 {
   transition-timing-function: ease;
   transition-property: margin-top;
   transition-duration: .2s;
   margin-top: -3px;
 }
 
-.order-online:hover>.text {
+.order-online:hover a>.text {
   margin-top: -15px;
   display: block;
 
@@ -56,17 +59,19 @@ h2 {
 }
 
 .opening {
-  height: 15vh;
+  height: 200px;
+  width: 100vh;
   background: $color-main;
   text-align: center;
   align-items: center;
   color: $color-light;
-  border-radius: 4%;
-  line-height: 2;
-  -webkit-border-radius: 4%;
-  -moz-border-radius: 4%;
-  -ms-border-radius: 4%;
-  -o-border-radius: 4%;
+  border-radius: 3%;
+  -webkit-border-radius: 3%;
+  -moz-border-radius: 3%;
+  -ms-border-radius: 3%;
+  -o-border-radius: 3%;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 // Carousel
@@ -83,7 +88,7 @@ h2 {
 }
 
 .picture {
-  height: 250px;
+  height: 200px;
   width: 50%;
   margin-right: 20px;
   border-radius: 4%;
@@ -154,7 +159,6 @@ h2 {
   width: 100%;
   height: 100%;
   background-color: #2222;
-  cursor: pointer;
 }
 
 .overlay i {
@@ -162,10 +166,10 @@ h2 {
   display: none;
   color: $color-light;
   font-size: 20px;
-  cursor: pointer;
 }
 
-.overlay i:hover, a  {
+.overlay i:hover,
+a {
   color: $color-main;
 }
 

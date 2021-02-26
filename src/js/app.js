@@ -10,7 +10,9 @@ const app = {
     const thisApp = this;
 
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
+    console.log('app.pages:', thisApp.pages);
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
+    console.log('navlinks',thisApp.navLinks);
 
     const idFromHash = window.location.hash.replace('#/', '');
     let pageMatchingHash = thisApp.pages[0].id;
@@ -96,11 +98,11 @@ const app = {
 
   init: function () {
     const thisApp = this;
-    thisApp.initPages();
     thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();
     thisApp.initHome();
+    thisApp.initPages();
   },
 };
 app.init();

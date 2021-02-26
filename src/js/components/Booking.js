@@ -253,13 +253,11 @@ class Booking {
     };
 
     fetch(url, options)
-      .then(thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table))
       .then(function (response) {
         return response.json();
       })
-      .then(function (parsedResponse) {
-        console.log('parsedResponse', parsedResponse);
-      });
+      .then((response) => thisBooking.makeBooked(response.date, response.hour, response.duration, response.table))
+      .then(() => thisBooking.updateDOM());
 
   }
 }
